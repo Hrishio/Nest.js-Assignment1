@@ -9,9 +9,11 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from 'src/dtos/user.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('/users')
 export class UserController {
@@ -36,13 +38,10 @@ export class UserController {
   }
 
   @Post('/new')
+  @UseGuards(AuthGuard)
   @HttpCode(201)
   createUser(userDto: UserDto): string {
     try {
-      throw new NotAcceptableException('The body u passed is unaccepateble', {
-        cause: new Error(),
-        description: 'Invalid request body',
-      });
       return this.userService.createUser(userDto);
     } catch (error) {
       throw new NotAcceptableException('The body u passed is unaccepateble', {
