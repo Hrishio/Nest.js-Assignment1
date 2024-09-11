@@ -4,7 +4,7 @@ import { UserDto } from 'src/dtos/user.dto';
 
 @Injectable()
 export class UserService {
-  private readonly secretKey = 'yourSecretKey'; // Replace with your actual secret
+  private readonly secretKey = 'BITS'; // Replace with your actual secret
 
   // Existing methods...
   getUser(): string {
