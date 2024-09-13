@@ -45,12 +45,14 @@ export class UserController {
     try {
       const newUser = this.userService.createUser(userDto);
 
-      const token = this.userService.generateToken(userDto);
+      const { token, refreshToken } = this.userService.generateToken(userDto);
 
       return {
         message: 'User created successfully',
         token: token.slice(0, 6),
         expires_in: '1h',
+        refreshToken: refreshToken.slice(0, 6),
+        expiresIn: '2h',
       };
     } catch (error) {
       throw new NotAcceptableException('The body you passed is unacceptable', {

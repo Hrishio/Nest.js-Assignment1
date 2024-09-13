@@ -5,6 +5,7 @@ import { UserDto } from 'src/dtos/user.dto';
 @Injectable()
 export class UserService {
   private readonly secretKey = 'BITS';
+  private readonly refreshKey = 'Hrishikesh';
 
   getUser(): string {
     return 'All Users';
@@ -26,14 +27,20 @@ export class UserService {
     return `User with ID ${id} deleted`;
   }
 
-  generateToken(userDto: UserDto): string {
+  generateToken(userDto: UserDto): { token: string; refreshToken: string } {
     const payload = {
       userName: userDto.userName,
       password: userDto.password,
     };
 
-    const token = jwt.sign(payload, this.secretKey, { expiresIn: '1h' });
+    const token = jwt.sign(payload, this.secretKey, {
+      expiresIn: '1h',
+    });
 
-    return token;
+    const refreshToken = payload.userName.concat(payload.password);
+    return {
+      token,
+      refreshToken,
+    };
   }
 }
